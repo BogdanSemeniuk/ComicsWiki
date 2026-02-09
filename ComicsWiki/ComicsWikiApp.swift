@@ -11,7 +11,7 @@ import SwiftUI
 struct ComicsWikiApp: App {
     var body: some Scene {
         WindowGroup {
-            SplashView()
+            SignInView()
         }
     }
 }
