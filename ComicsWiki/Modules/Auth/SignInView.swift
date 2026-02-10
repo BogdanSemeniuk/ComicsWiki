@@ -6,10 +6,14 @@
 //
 
 import SwiftUI
+import ComposableArchitecture
 
 struct SignInView: View {
-    @State private var email = ""
-    @State private var password = ""
+    enum FocusedField {
+        case email, password
+    }
+    @Bindable var store: StoreOf<AuthFeature>
+    @FocusState private var focusedField: FocusedField?
     
     private var cardShape: some Shape {
         RoundedRectangle(cornerRadius: 16)
@@ -45,14 +49,33 @@ struct SignInView: View {
     
     private var card: some View {
         VStack(spacing: 0) {
-            AppTextField(text: $email, placeholder: String(localized: .SignIn.emailFieldPlaceholder))
-                .padding(.bottom, 16)
-            AppTextField(text: $password, placeholder: String(localized: .SignIn.passwordFieldPlaceholder))
-                .padding(.bottom, 22)
+            AppTextField(
+                text: $store.email.sending(\.emailChanged),
+                placeholder: String(localized: .SignIn.emailFieldPlaceholder),
+                isFocused: focusedField == .email,
+                keyboardType: .emailAddress
+            )
+            .focused($focusedField, equals: .email)
+            .onSubmit {
+                focusedField = .password
+            }
+            .padding(.bottom, 16)
+            AppSecureTextField(
+                text: $store.password.sending(\.passwordChanged),
+                placeholder: String(localized: .SignIn.passwordFieldPlaceholder),
+                isFocused: focusedField == .password
+            )
+            .focused($focusedField, equals: .password)
+            .onSubmit {
+                focusedField = nil
+            }
+            .padding(.bottom, 22)
             RoundedButton(
                 label: String(localized: .SignIn.loginButton),
-                disabled: false,
-                action: {}
+                disabled: store.isButtonDisabled,
+                action: {
+                    store.send(.signInTapped)
+                }
             )
         }
         .padding(16)
@@ -83,5 +106,9 @@ struct SignInView: View {
 }
 
 #Preview {
-    SignInView()
+    SignInView(
+        store: Store(initialState: AuthFeature.State()) {
+            AuthFeature()
+        }
+    )
 }

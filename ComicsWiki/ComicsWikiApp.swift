@@ -6,12 +6,17 @@
 //
 
 import SwiftUI
+import ComposableArchitecture
 
 @main
 struct ComicsWikiApp: App {
     var body: some Scene {
         WindowGroup {
-            SignInView()
+            SignInView(
+                store: Store(initialState: AuthFeature.State()) {
+                    AuthFeature()
+                }
+            )
         }
     }
 }

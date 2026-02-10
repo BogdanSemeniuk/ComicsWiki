@@ -10,14 +10,14 @@ import SwiftUI
 struct AppTextField: View {
     @Binding var text: String
     var placeholder = ""
+    var isFocused = false
+    var hasError = false
     var inputColor = Color(.textPrimary)
     var borderColor = Color(.border)
     var focusedBorderColor = Color(.textFieldBorderFocused)
     var errorBorderColor = Color(.textFieldError)
-    @FocusState private var isFocused: Bool
-    private var shape: some Shape {
-        RoundedRectangle(cornerRadius: 12)
-    }
+    var keyboardType: UIKeyboardType = .default
+    var autocorrectionDisabled = true
     
     var body: some View {
         TextField(
@@ -25,25 +25,20 @@ struct AppTextField: View {
             text: $text,
             prompt: Text(placeholder).foregroundColor(.textSecondary)
         )
-        .padding(10)
-        .overlay {
-            shape
-                .stroke(borderStrokeColor)
-        }
-        .background(.textFieldBackground, in: shape)
-        .foregroundStyle(.textPrimary)
-        .focused($isFocused)
-        .onTapGesture {
-            isFocused = true
-        }
-    }
-    
-    private var borderStrokeColor: Color {
-        isFocused ? focusedBorderColor : borderColor
+        .textFieldStyle(
+            AppTextFieldStyle(
+                isFocused: isFocused,
+                hasError: hasError,
+                inputColor: inputColor,
+                borderColor: borderColor,
+                focusedBorderColor: focusedBorderColor,
+                errorBorderColor: errorBorderColor,
+                keyboardType: keyboardType,
+                autocorrectionDisabled: autocorrectionDisabled
+            )
+        )
     }
 }
-
-
 
 #Preview {
     AppTextField(
@@ -51,5 +46,3 @@ struct AppTextField: View {
         placeholder: String(localized: .SignIn.emailFieldPlaceholder)
     )
 }
-
-

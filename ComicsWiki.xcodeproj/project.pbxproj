@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		F561D2642F3B365200B56E05 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = F561D2632F3B365200B56E05 /* ComposableArchitecture */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		F5D01EE82F36A1690011B569 /* ComicsWiki.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ComicsWiki.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -36,6 +40,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F561D2642F3B365200B56E05 /* ComposableArchitecture in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -78,6 +83,7 @@
 			);
 			name = ComicsWiki;
 			packageProductDependencies = (
+				F561D2632F3B365200B56E05 /* ComposableArchitecture */,
 			);
 			productName = ComicsWiki;
 			productReference = F5D01EE82F36A1690011B569 /* ComicsWiki.app */;
@@ -107,6 +113,9 @@
 			);
 			mainGroup = F5D01EDF2F36A1690011B569;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				F561D2622F3B365200B56E05 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = F5D01EE92F36A1690011B569 /* Products */;
 			projectDirPath = "";
@@ -353,6 +362,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		F561D2622F3B365200B56E05 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/pointfreeco/swift-composable-architecture";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.23.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		F561D2632F3B365200B56E05 /* ComposableArchitecture */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F561D2622F3B365200B56E05 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */;
+			productName = ComposableArchitecture;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = F5D01EE02F36A1690011B569 /* Project object */;
 }
