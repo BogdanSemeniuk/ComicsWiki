@@ -10,31 +10,24 @@ import ComposableArchitecture
 @Reducer
 struct AuthFeature {
     @ObservableState
-    struct State {
+    struct State: Equatable {
         var email = ""
         var password = ""
         var isButtonDisabled = true
     }
     
-    enum Action {
+    enum Action: BindableAction {
+        case binding(BindingAction<State>)
         case signInTapped
-        case emailChanged(String)
-        case passwordChanged(String)
-        case inputChanged
     }
     
     var body: some Reducer<State, Action> {
+        BindingReducer()
         Reduce { state, action in
             switch action {
             case .signInTapped:
                 return .none
-            case .emailChanged(let text):
-                state.email = text
-                return .send(.inputChanged)
-            case .passwordChanged(let text):
-                state.password = text
-                return .send(.inputChanged)
-            case .inputChanged:
+            case .binding:
                 state.isButtonDisabled = state.email.isEmpty || state.password.isEmpty
                 return .none
             }

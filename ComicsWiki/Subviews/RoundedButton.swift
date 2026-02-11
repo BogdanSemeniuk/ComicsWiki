@@ -19,7 +19,7 @@ struct RoundedButton: View {
             Text(label)
                 .frame(height: 56)
                 .frame(maxWidth: .infinity, alignment: .center)
-                .foregroundStyle(.textPrimary)
+                .foregroundStyle(.textPrimary.opacity(disabled ? 0.5 : 1))
                 .font(.system(size: 17, weight: .semibold))
                 .background(
                     .brandPrimary.opacity(disabled ? 0.5 : 1),

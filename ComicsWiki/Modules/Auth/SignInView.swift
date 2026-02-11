@@ -50,7 +50,7 @@ struct SignInView: View {
     private var card: some View {
         VStack(spacing: 0) {
             AppTextField(
-                text: $store.email.sending(\.emailChanged),
+                text: $store.email,
                 placeholder: String(localized: .SignIn.emailFieldPlaceholder),
                 isFocused: focusedField == .email,
                 keyboardType: .emailAddress
@@ -61,7 +61,7 @@ struct SignInView: View {
             }
             .padding(.bottom, 16)
             AppSecureTextField(
-                text: $store.password.sending(\.passwordChanged),
+                text: $store.password,
                 placeholder: String(localized: .SignIn.passwordFieldPlaceholder),
                 isFocused: focusedField == .password
             )
