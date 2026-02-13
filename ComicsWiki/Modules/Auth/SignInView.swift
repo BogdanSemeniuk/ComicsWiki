@@ -53,23 +53,25 @@ struct SignInView: View {
                 text: $store.email,
                 placeholder: String(localized: .SignIn.emailFieldPlaceholder),
                 isFocused: focusedField == .email,
+                hasError: store.emailValidationError != nil,
                 keyboardType: .emailAddress
             )
             .focused($focusedField, equals: .email)
             .onSubmit {
                 focusedField = .password
             }
-            .padding(.bottom, 16)
+            validatinErrorMessage(store.emailValidationError)
             AppSecureTextField(
                 text: $store.password,
                 placeholder: String(localized: .SignIn.passwordFieldPlaceholder),
-                isFocused: focusedField == .password
+                isFocused: focusedField == .password,
+                hasError: store.passwordValidationError != nil
             )
             .focused($focusedField, equals: .password)
             .onSubmit {
                 focusedField = nil
             }
-            .padding(.bottom, 22)
+            validatinErrorMessage(store.passwordValidationError)
             RoundedButton(
                 label: String(localized: .SignIn.loginButton),
                 disabled: store.isButtonDisabled,
@@ -78,12 +80,21 @@ struct SignInView: View {
                 }
             )
         }
-        .padding(16)
+        .padding(.horizontal, 16)
+        .padding(.vertical, 24)
         .background(.elevatedSurface, in: cardShape)
         .overlay {
             cardShape
                 .stroke(.border)
         }
+    }
+    
+    private func validatinErrorMessage(_ message: String?) -> some View {
+        Text(message ?? "")
+            .font(.system(size: 14))
+            .frame(height: 36)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .foregroundStyle(Color(.textFieldError))
     }
     
     private var registrationPrompt: some View {
