@@ -1,5 +1,5 @@
 //
-//  AuthFeature.swift
+//  SignInFeature.swift
 //  ComicsWiki
 //
 //  Created by Богдан Семенюк on 10.02.2026.
@@ -9,7 +9,7 @@ import ComposableArchitecture
 import Foundation
 
 @Reducer
-struct AuthFeature {
+struct SignInFeature {
     @Dependency(\.inputValidator) var inputValidator
     
     @ObservableState

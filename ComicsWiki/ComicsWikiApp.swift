@@ -12,11 +12,12 @@ import ComposableArchitecture
 struct ComicsWikiApp: App {
     var body: some Scene {
         WindowGroup {
-            SignInView(
-                store: Store(initialState: AuthFeature.State()) {
-                    AuthFeature()
-                }
-            )
+            RegistrationView()
+//            SignInView(
+//                store: Store(initialState: SignInFeature.State()) {
+//                    SignInFeature()
+//                }
+//            )
         }
     }
 }

@@ -12,7 +12,7 @@ struct SignInView: View {
     enum FocusedField {
         case email, password
     }
-    @Bindable var store: StoreOf<AuthFeature>
+    @Bindable var store: StoreOf<SignInFeature>
     @FocusState private var focusedField: FocusedField?
     
     private var cardShape: some Shape {
@@ -118,8 +118,8 @@ struct SignInView: View {
 
 #Preview {
     SignInView(
-        store: Store(initialState: AuthFeature.State()) {
-            AuthFeature()
+        store: Store(initialState: SignInFeature.State()) {
+            SignInFeature()
         }
     )
 }
