@@ -15,14 +15,17 @@ struct RegisterProfileFeature {
         var nickName = ""
         var gender: Gender = .female
         var genderDescription = ""
-        var dateOfBirth: Date?
+        var dateOfBirth = Date()
+        var birthdayWasSet = false
         var email = ""
-        var isContionueButtonDisabled: Bool {
+        var isDatePickerShown = false
+        var isContinueButtonDisabled: Bool {
             if gender == .other {
                 return genderDescription.isEmpty || nickName.isEmpty
             }
             return nickName.isEmpty
         }
+
     }
     
     enum Action: BindableAction {
@@ -33,6 +36,9 @@ struct RegisterProfileFeature {
         BindingReducer()
         Reduce { state, action in
             switch action {
+            case .binding(\.dateOfBirth):
+                state.birthdayWasSet = true
+                return .none
             case .binding:
                 return .none
             }

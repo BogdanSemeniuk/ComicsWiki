@@ -45,6 +45,9 @@
         }
       }
     },
+    "birthdayPickerTitle" : {
+      "extractionState" : "manual"
+    },
     "continueButton" : {
       "extractionState" : "manual",
       "localizations" : {

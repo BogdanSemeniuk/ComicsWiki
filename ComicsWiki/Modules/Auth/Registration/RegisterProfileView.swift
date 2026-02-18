@@ -14,6 +14,8 @@ struct RegisterProfileView: View {
     }
     @Bindable var store: StoreOf<RegisterProfileFeature>
     @FocusState private var focusedField: FocusedField?
+    @Namespace private var presentation
+    private let transitionId = "transitionId"
     
     var body: some View {
         VStack(spacing: 20) {
@@ -34,7 +36,7 @@ struct RegisterProfileView: View {
                         Spacer()
                         RoundedButton(
                             label: String(localized: .Registration.continueButton),
-                            disabled: store.isContionueButtonDisabled,
+                            disabled: store.isContinueButtonDisabled,
                             action: {
                                 
                             }
@@ -48,6 +50,11 @@ struct RegisterProfileView: View {
         }
         .padding(.horizontal, 16)
         .background(Color(.background))
+        .sheet(isPresented: $store.isDatePickerShown) {
+            datePicker()
+                .presentationDetents([.fraction(0.7)])
+                .navigationTransition(.zoom(sourceID: transitionId, in: presentation))
+        }
     }
     
     private var nickNameView: some View {
@@ -95,19 +102,32 @@ struct RegisterProfileView: View {
     }
     
     private var birthdayView: some View {
-        HStack(spacing: 16) {
-            textLabel(.Registration.birthdayLabel)
-            Button {
-                
-            } label: {
-                HStack {
-                    Image(sf: .calendar)
-                    Text(.Registration.addBirthdayButton)
+        VStack(alignment: .leading, spacing: 12) {
+            HStack(spacing: 16) {
+                textLabel(.Registration.birthdayLabel)
+                Button {
+                    store.isDatePickerShown = true
+                } label: {
+                    HStack {
+                        Image(sf: .calendar)
+                        Text(.Registration.addBirthdayButton)
+                    }
+                    .padding(4)
+                    .padding(.horizontal, 12)
+                    .background(.white, in: .capsule)
+                    .foregroundStyle(.primaryBlue)
                 }
-                .padding(4)
-                .padding(.horizontal, 12)
-                .background(.white, in: .capsule)
-                .foregroundStyle(.primaryBlue)
+                .matchedTransitionSource(id: transitionId, in: presentation)
+            }
+            if store.birthdayWasSet {
+                HStack(spacing: 16) {
+                    Text(store.dateOfBirth.string(.long))
+                        .font(.system(size: 16))
+                    Button("", sf: .xmarkCircleFill) {
+                        store.birthdayWasSet = false
+                    }
+                }
+                .foregroundStyle(.textPrimary)
             }
         }
     }
@@ -126,6 +146,15 @@ struct RegisterProfileView: View {
         Text(resource)
             .font(.system(size: 16))
             .foregroundStyle(.textSecondary)
+    }
+    
+    @ViewBuilder
+    func datePicker() -> some View {
+        NavigationStack {
+            DatePicker("", selection: $store.dateOfBirth, displayedComponents: .date)
+                .datePickerStyle(.graphical)
+                .navigationTitle(Text(.Registration.birthdayPickerTitle))
+        }
     }
 }
 

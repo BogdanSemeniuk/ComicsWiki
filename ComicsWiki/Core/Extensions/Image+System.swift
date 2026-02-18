@@ -11,10 +11,4 @@ extension Image {
     init(sf symbol: SFSymbol) {
         self = Image(systemName: symbol.rawValue)
     }
-    
-    enum SFSymbol: String {
-        case eye
-        case calendar
-        case eyeSlash = "eye.slash"
-    }
 }
