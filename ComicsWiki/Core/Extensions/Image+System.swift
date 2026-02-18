@@ -14,6 +14,7 @@ extension Image {
     
     enum SFSymbol: String {
         case eye
+        case calendar
         case eyeSlash = "eye.slash"
     }
 }
