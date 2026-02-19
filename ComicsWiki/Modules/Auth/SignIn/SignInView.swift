@@ -51,7 +51,7 @@ struct SignInView: View {
         VStack(spacing: 0) {
             AppTextField(
                 text: $store.email,
-                placeholder: String(localized: .SignIn.emailFieldPlaceholder),
+                placeholder: String(localized: .Common.emailFieldPlaceholder),
                 isFocused: focusedField == .email,
                 hasError: store.emailValidationError != nil,
                 keyboardType: .emailAddress
@@ -60,10 +60,10 @@ struct SignInView: View {
             .onSubmit {
                 focusedField = .password
             }
-            validatinErrorMessage(store.emailValidationError)
+            ValidationErrorMessage(message: store.emailValidationError)
             AppSecureTextField(
                 text: $store.password,
-                placeholder: String(localized: .SignIn.passwordFieldPlaceholder),
+                placeholder: String(localized: .Common.passwordFieldPlaceholder),
                 isFocused: focusedField == .password,
                 hasError: store.passwordValidationError != nil
             )
@@ -71,7 +71,7 @@ struct SignInView: View {
             .onSubmit {
                 focusedField = nil
             }
-            validatinErrorMessage(store.passwordValidationError)
+            ValidationErrorMessage(message: store.passwordValidationError)
             RoundedButton(
                 label: String(localized: .SignIn.loginButton),
                 disabled: store.isButtonDisabled,
@@ -87,14 +87,6 @@ struct SignInView: View {
             cardShape
                 .stroke(.border)
         }
-    }
-    
-    private func validatinErrorMessage(_ message: String?) -> some View {
-        Text(message ?? "")
-            .font(.system(size: 14))
-            .frame(height: 36)
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .foregroundStyle(Color(.textFieldError))
     }
     
     private var registrationPrompt: some View {

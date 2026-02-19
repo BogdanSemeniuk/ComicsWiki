@@ -43,6 +43,6 @@ struct AppTextField: View {
 #Preview {
     AppTextField(
         text: .constant(""),
-        placeholder: String(localized: .SignIn.emailFieldPlaceholder)
+        placeholder: String(localized: .Common.emailFieldPlaceholder)
     )
 }

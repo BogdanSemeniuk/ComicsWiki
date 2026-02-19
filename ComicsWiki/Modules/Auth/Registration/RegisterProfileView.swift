@@ -19,13 +19,10 @@ struct RegisterProfileView: View {
     
     var body: some View {
         VStack(spacing: 20) {
-            Text(.Registration.profileTitle)
-                .font(.system(size: 28, weight: .semibold))
-                .foregroundStyle(.textPrimary)
-            Text(.Registration.profileDescription)
-                .font(.system(size: 16, weight: .semibold))
-                .foregroundStyle(.accentYellow)
-                .frame(maxWidth: .infinity, alignment: .leading)
+            RegisterHeaderView(
+                title: .Registration.profileTitle,
+                description: .Registration.profileDescription
+            )
             GeometryReader { proxy in
                 ScrollView {
                     VStack(alignment: .leading, spacing: 32) {

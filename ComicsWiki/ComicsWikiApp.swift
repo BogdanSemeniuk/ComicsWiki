@@ -16,11 +16,16 @@ struct ComicsWikiApp: App {
     
     var body: some Scene {
         WindowGroup {
-            RegisterProfileView(
-                store: Store(initialState: RegisterProfileFeature.State(), reducer: {
-                    RegisterProfileFeature()
-                })
+            CreateAccountView(
+                store: Store(initialState: CreateAccountFeature.State()) {
+                    CreateAccountFeature()
+                }
             )
+//            RegisterProfileView(
+//                store: Store(initialState: RegisterProfileFeature.State(), reducer: {
+//                    RegisterProfileFeature()
+//                })
+//            )
 //            SignInView(
 //                store: Store(initialState: SignInFeature.State()) {
 //                    SignInFeature()

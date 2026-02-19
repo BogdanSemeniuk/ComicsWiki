@@ -13,6 +13,7 @@ enum ValidationError: LocalizedError {
     case passwordDigit
     case passwordSpace
     case passwordUppercaseLetter
+    case passwordsNotMatch
     
     var errorDescription: String? {
         switch self {
@@ -21,6 +22,7 @@ enum ValidationError: LocalizedError {
         case .passwordDigit: .init(localized: .ValidationError.passwordDigit)
         case .passwordUppercaseLetter: .init(localized: .ValidationError.passwordUppercaseLetter)
         case .passwordSpace: .init(localized: .ValidationError.passwordSpace)
+        case .passwordsNotMatch: .init(localized: .ValidationError.passwordsNotMatch)
         }
     }
 }

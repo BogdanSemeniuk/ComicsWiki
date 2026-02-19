@@ -46,7 +46,15 @@
       }
     },
     "birthdayPickerTitle" : {
-      "extractionState" : "manual"
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choose your birthday"
+          }
+        }
+      }
     },
     "continueButton" : {
       "extractionState" : "manual",

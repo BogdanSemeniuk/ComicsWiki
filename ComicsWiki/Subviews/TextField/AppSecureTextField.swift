@@ -67,6 +67,6 @@ struct AppSecureTextField: View {
 #Preview {
     AppSecureTextField(
         text: .constant(""),
-        placeholder: String(localized: .SignIn.passwordFieldPlaceholder)
+        placeholder: String(localized: .Common.passwordFieldPlaceholder)
     )
 }

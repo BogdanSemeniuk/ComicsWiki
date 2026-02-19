@@ -34,17 +34,6 @@
         }
       }
     },
-    "emailFieldPlaceholder" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Email"
-          }
-        }
-      }
-    },
     "loginButton" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -52,17 +41,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Log In"
-          }
-        }
-      }
-    },
-    "passwordFieldPlaceholder" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Password"
           }
         }
       }
