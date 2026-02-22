@@ -25,11 +25,14 @@ struct RegisterProfileFeature {
             }
             return nickName.isEmpty
         }
-
+        
+        @Presents var createAccount: CreateAccountFeature.State?
     }
     
     enum Action: BindableAction {
         case binding(BindingAction<State>)
+        case createAccount(PresentationAction<CreateAccountFeature.Action>)
+        case continueTapped
     }
     
     var body: some Reducer <State, Action> {
@@ -41,7 +44,15 @@ struct RegisterProfileFeature {
                 return .none
             case .binding:
                 return .none
+            case .continueTapped:
+                state.createAccount = CreateAccountFeature.State()
+                return .none
+            case .createAccount:
+                return .none
             }
+        }
+        .ifLet(\.$createAccount, action: \.createAccount) {
+            CreateAccountFeature()
         }
     }
 }

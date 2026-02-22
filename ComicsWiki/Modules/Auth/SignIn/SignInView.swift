@@ -28,6 +28,11 @@ struct SignInView: View {
             registrationPrompt
         }
         .background(Color(.background))
+        .navigationDestination(
+            item: $store.scope(state: \.registerProfile, action: \.registerProfile)
+        ) { store in
+            RegisterProfileView(store: store)
+        }
     }
     
     @ViewBuilder
@@ -94,7 +99,7 @@ struct SignInView: View {
             Text(.SignIn.createAccountDescription)
                 .foregroundStyle(.textSecondary)
             Button {
-                print("Create one")
+                store.send(.createOneTapped)
             } label: {
                 Text(.SignIn.createButton)
                     .fontWeight(.semibold)
@@ -102,7 +107,6 @@ struct SignInView: View {
                     .underline()
                     .padding(8)
             }
-
         }
         .font(.system(size: 14))
     }

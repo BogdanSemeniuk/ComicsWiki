@@ -12,4 +12,5 @@ enum SFSymbol: String {
     case calendar
     case eyeSlash = "eye.slash"
     case xmarkCircleFill = "xmark.circle.fill"
+    case xmark = "xmark"
 }

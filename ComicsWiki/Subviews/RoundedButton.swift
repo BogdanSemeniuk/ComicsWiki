@@ -10,7 +10,7 @@ import SwiftUI
 struct RoundedButton: View {
     var label: String
     var disabled = false
-    var action: ()-> Void
+    var action: () -> Void
     
     var body: some View {
         Button {

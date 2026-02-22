@@ -18,6 +18,10 @@ struct CreateAccountView: View {
     
     var body: some View {
         VStack(spacing: 24) {
+            HStack {
+                Spacer()
+                CloseButton(action: { store.send(.closeTapped) })
+            }
             RegisterHeaderView(
                 title: .Registration.accountTitle,
                 description: .Registration.accountDescription

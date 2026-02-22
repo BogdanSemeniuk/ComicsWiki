@@ -19,11 +19,14 @@ struct SignInFeature {
         var emailValidationError: String?
         var passwordValidationError: String?
         var isButtonDisabled = true
+        @Presents var registerProfile: RegisterProfileFeature.State?
     }
     
     enum Action: BindableAction {
         case binding(BindingAction<State>)
+        case registerProfile(PresentationAction<RegisterProfileFeature.Action>)
         case signInTapped
+        case createOneTapped
     }
     
     var body: some Reducer<State, Action> {
@@ -43,12 +46,20 @@ struct SignInFeature {
                     }
                 }
                 return .none
+            case .registerProfile:
+                return .none
+            case .createOneTapped:
+                state.registerProfile = RegisterProfileFeature.State()
+                return .none
             case .binding:
                 state.emailValidationError = nil
                 state.passwordValidationError = nil
                 state.isButtonDisabled = state.email.isEmpty || state.password.isEmpty
                 return .none
             }
+        }
+        .ifLet(\.$registerProfile, action: \.registerProfile) {
+            RegisterProfileFeature()
         }
     }
 }

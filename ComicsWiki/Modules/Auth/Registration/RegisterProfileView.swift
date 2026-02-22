@@ -35,7 +35,7 @@ struct RegisterProfileView: View {
                             label: String(localized: .Registration.continueButton),
                             disabled: store.isContinueButtonDisabled,
                             action: {
-                                
+                                store.send(.continueTapped)
                             }
                         )
                         .padding(.bottom, 8)
@@ -51,6 +51,11 @@ struct RegisterProfileView: View {
             datePicker()
                 .presentationDetents([.fraction(0.7)])
                 .navigationTransition(.zoom(sourceID: transitionId, in: presentation))
+        }
+        .fullScreenCover(
+            item: $store.scope(state: \.createAccount, action: \.createAccount)
+        ) { store in
+            CreateAccountView(store: store)
         }
     }
     

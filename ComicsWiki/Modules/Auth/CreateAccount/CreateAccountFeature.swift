@@ -11,6 +11,7 @@ import ComposableArchitecture
 @Reducer
 struct CreateAccountFeature {
     @Dependency(\.inputValidator) var inputValidator
+    @Dependency(\.dismiss) var dismiss
     
     @ObservableState
     struct State: Equatable {
@@ -30,12 +31,15 @@ struct CreateAccountFeature {
     enum Action: BindableAction, Equatable {
         case binding(BindingAction<State>)
         case createAccountTapped
+        case closeTapped
     }
 
     var body: some Reducer <State, Action> {
         BindingReducer()
         Reduce { state, action in
             switch action {
+            case .closeTapped:
+                return .run { _ in await self.dismiss() }
             case .binding:
                 state.emailValidationError = nil
                 state.passwordValidationError = nil

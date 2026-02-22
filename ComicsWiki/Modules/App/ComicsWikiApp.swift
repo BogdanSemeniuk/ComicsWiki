@@ -10,27 +10,19 @@ import ComposableArchitecture
 
 @main
 struct ComicsWikiApp: App {
+    private let store = Store(initialState: AppFeature.State()) {
+        AppFeature()
+    }
+    
     init() {
         setupSegmentedControlAppearance()
     }
     
     var body: some Scene {
         WindowGroup {
-            CreateAccountView(
-                store: Store(initialState: CreateAccountFeature.State()) {
-                    CreateAccountFeature()
-                }
-            )
-//            RegisterProfileView(
-//                store: Store(initialState: RegisterProfileFeature.State(), reducer: {
-//                    RegisterProfileFeature()
-//                })
-//            )
-//            SignInView(
-//                store: Store(initialState: SignInFeature.State()) {
-//                    SignInFeature()
-//                }
-//            )
+            NavigationStack {
+                RootView(store: store)
+            }
         }
     }
     
