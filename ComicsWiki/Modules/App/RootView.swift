@@ -12,15 +12,15 @@ struct RootView: View {
     let store: StoreOf<AppFeature>
     
     var body: some View {
-        Group {
-            if !store.isAuthorized {
-                HomeView(store: .init(initialState: HomeFeature.State()) {
-                    HomeFeature()
-                })
+        VStack {
+            if store.isAuthorized {
+                if let homeStore = store.scope(state: \.home, action: \.home) {
+                    HomeView(store: homeStore)
+                }
             } else {
-                SignInView(store: .init(initialState: SignInFeature.State()) {
-                    SignInFeature()
-                })
+                if let signInStore = store.scope(state: \.signIn, action: \.signIn) {
+                    SignInView(store: signInStore)
+                }
             }
         }
         .onAppear {

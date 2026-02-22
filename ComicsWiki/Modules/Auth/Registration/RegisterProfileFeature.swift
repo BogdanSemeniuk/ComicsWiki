@@ -29,10 +29,15 @@ struct RegisterProfileFeature {
         @Presents var createAccount: CreateAccountFeature.State?
     }
     
-    enum Action: BindableAction {
+    enum Action: BindableAction, Equatable {
         case binding(BindingAction<State>)
         case createAccount(PresentationAction<CreateAccountFeature.Action>)
         case continueTapped
+        case delegate(Delegate)
+        
+        enum Delegate: Equatable {
+            case fetchedToken(String)
+        }
     }
     
     var body: some Reducer <State, Action> {
@@ -47,7 +52,12 @@ struct RegisterProfileFeature {
             case .continueTapped:
                 state.createAccount = CreateAccountFeature.State()
                 return .none
+            case .createAccount(.presented(.delegate(.fetchedToken(let token)))):
+                state.createAccount = nil
+                return .send(.delegate(.fetchedToken(token)))
             case .createAccount:
+                return .none
+            case .delegate:
                 return .none
             }
         }

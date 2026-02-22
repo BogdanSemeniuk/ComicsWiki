@@ -32,6 +32,11 @@ struct CreateAccountFeature {
         case binding(BindingAction<State>)
         case createAccountTapped
         case closeTapped
+        case delegate(Delegate)
+        
+        enum Delegate: Equatable {
+            case fetchedToken(String)
+        }
     }
 
     var body: some Reducer <State, Action> {
@@ -52,6 +57,8 @@ struct CreateAccountFeature {
                     if state.password != state.confirmPassword {
                         throw ValidationError.passwordsNotMatch
                     }
+                    
+                    return .send(.delegate(.fetchedToken("token_123")))
                 } catch {
                     guard let error = error as? ValidationError else { return .none }
                     if error == .invalidEmail {
@@ -62,6 +69,8 @@ struct CreateAccountFeature {
                         state.passwordValidationError = error.localizedDescription
                     }
                 }
+                return .none
+            case .delegate:
                 return .none
             }
         }

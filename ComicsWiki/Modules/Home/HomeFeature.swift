@@ -16,12 +16,19 @@ struct HomeFeature {
     
     enum Action: Equatable {
         case logoutTapped
+        case delegate(Delegate)
+        
+        enum Delegate: Equatable {
+            case logout
+        }
     }
     
     var body: some Reducer <State, Action> {
         Reduce { state, action in
             switch action {
             case .logoutTapped:
+                return .send(.delegate(.logout))
+            case .delegate:
                 return .none
             }
         }

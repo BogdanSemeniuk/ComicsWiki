@@ -22,11 +22,16 @@ struct SignInFeature {
         @Presents var registerProfile: RegisterProfileFeature.State?
     }
     
-    enum Action: BindableAction {
+    enum Action: BindableAction, Equatable {
         case binding(BindingAction<State>)
         case registerProfile(PresentationAction<RegisterProfileFeature.Action>)
         case signInTapped
         case createOneTapped
+        case delegate(Delegate)
+        
+        enum Delegate: Equatable {
+            case fetchedToken(String)
+        }
     }
     
     var body: some Reducer<State, Action> {
@@ -45,8 +50,14 @@ struct SignInFeature {
                         state.passwordValidationError = error.localizedDescription
                     }
                 }
-                return .none
+                    
+                return .send(.delegate(.fetchedToken("asdad")))
+            case .registerProfile(.presented(.delegate(.fetchedToken(let token)))):
+                state.registerProfile = nil
+                return .send(.delegate(.fetchedToken(token)))
             case .registerProfile:
+                return .none
+            case .delegate:
                 return .none
             case .createOneTapped:
                 state.registerProfile = RegisterProfileFeature.State()
