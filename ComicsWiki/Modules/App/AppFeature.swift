@@ -19,7 +19,7 @@ struct AppFeature {
         var home: HomeFeature.State?
     }
     
-    enum Action: Equatable {
+    enum Action {
         case onFirstAppear
         case signIn(SignInFeature.Action)
         case home(HomeFeature.Action)

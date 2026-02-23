@@ -11,6 +11,7 @@ import Foundation
 @Reducer
 struct SignInFeature {
     @Dependency(\.inputValidator) var inputValidator
+    @Dependency(\.liveHTTPClient) var liveHTTPClient
     
     @ObservableState
     struct State: Equatable {
@@ -22,11 +23,12 @@ struct SignInFeature {
         @Presents var registerProfile: RegisterProfileFeature.State?
     }
     
-    enum Action: BindableAction, Equatable {
+    enum Action: BindableAction {
         case binding(BindingAction<State>)
         case registerProfile(PresentationAction<RegisterProfileFeature.Action>)
         case signInTapped
         case createOneTapped
+        case sessionResponse(Result<Session, any Error>)
         case delegate(Delegate)
         
         enum Delegate: Equatable {
@@ -42,6 +44,13 @@ struct SignInFeature {
                 do {
                     try inputValidator.validateEmail(state.email)
                     try inputValidator.validatePassword(state.password)
+                    return .run { [state = state] send in
+                        await send(.sessionResponse(Result {
+                            try await self.liveHTTPClient.send(
+                                APIEndpoint.login(email: state.email, password: state.password), as: Session.self
+                            )
+                        }))
+                    }
                 } catch {
                     guard let error = error as? ValidationError else { return .none }
                     if error == .invalidEmail {
@@ -50,7 +59,13 @@ struct SignInFeature {
                         state.passwordValidationError = error.localizedDescription
                     }
                 }
-                return .send(.delegate(.fetchedToken("asdad")))
+                return .none
+            case .sessionResponse(.failure):
+                return .none
+                
+            case let .sessionResponse(.success(response)):
+                return .send(.delegate(.fetchedToken(response.token)))
+                
             case .registerProfile(.presented(.delegate(.fetchedToken(let token)))):
                 state.registerProfile = nil
                 return .send(.delegate(.fetchedToken(token)))

@@ -18,34 +18,34 @@ protocol Endpoint {
 
 enum APIEndpoint: Endpoint {
     case login(email: String, password: String)
-
+    
     var baseURL: URL { URL(string: "https://domain.com")! }
-
+    
     var path: String {
         switch self {
         case .login: return "session"
         }
     }
-
+    
     var method: HTTPMethod {
         switch self {
         case .login: return .POST
         }
     }
-
+    
     var query: [URLQueryItem] {
         switch self {
         case .login: return []
         }
     }
-
+    
     var headers: [String: String] {
         [
             "Accept": "application/json",
             "Content-Type": "application/json"
         ]
     }
-
+    
     var body: Data? {
         switch self {
         case let .login(email, password):

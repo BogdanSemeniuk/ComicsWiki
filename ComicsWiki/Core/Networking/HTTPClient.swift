@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import ComposableArchitecture
 
 protocol HTTPClient {
     func send<T: Decodable & Sendable>(_ endpoint: Endpoint, as type: T.Type) async throws -> T
@@ -36,3 +37,14 @@ struct LiveHTTPClient: HTTPClient {
     }
 }
 
+// MARK: Dependency
+extension LiveHTTPClient: DependencyKey {
+    static var liveValue = LiveHTTPClient(session: .mockedSession)
+}
+
+extension DependencyValues {
+    var liveHTTPClient: LiveHTTPClient {
+        get { self[LiveHTTPClient.self] }
+        set { self[LiveHTTPClient.self] = newValue }
+    }
+}
