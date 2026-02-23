@@ -14,13 +14,13 @@ struct AppFeature {
     
     @ObservableState
     struct State {
-        var isAuthorized = false
+        var isAuthorized: Bool?
         var signIn: SignInFeature.State?
         var home: HomeFeature.State?
     }
     
     enum Action: Equatable {
-        case onAppear
+        case onFirstAppear
         case signIn(SignInFeature.Action)
         case home(HomeFeature.Action)
     }
@@ -28,23 +28,17 @@ struct AppFeature {
     var body: some Reducer <State, Action> {
         Reduce { state, action in
             switch action {
-            case .onAppear:
-                let isAuthorized = authManager.isAuthorized
-                if isAuthorized {
-                    state.home = HomeFeature.State()
-                } else {
-                    state.signIn = SignInFeature.State()
-                }
-                state.isAuthorized = authManager.isAuthorized
+            case .onFirstAppear:
+                update(state: &state)
                 return .none
             case .signIn(.delegate(.fetchedToken(let token))):
                 authManager.saveToken(token)
-                state.signIn = nil
-                return .send(.onAppear)
+                update(state: &state)
+                return .none
             case .home(.delegate(.logout)):
                 authManager.clearToken()
-                state.home = nil
-                return .send(.onAppear)
+                update(state: &state)
+                return .none
             case .signIn, .home:
                 return .none
             }
@@ -55,5 +49,17 @@ struct AppFeature {
         .ifLet(\.home, action: \.home) {
             HomeFeature()
         }
+    }
+    
+    private func update(state: inout State) {
+        let isAuthorized = authManager.isAuthorized
+        if isAuthorized {
+            state.home = HomeFeature.State()
+            state.signIn = nil
+        } else {
+            state.signIn = SignInFeature.State()
+            state.home = nil
+        }
+        state.isAuthorized = authManager.isAuthorized
     }
 }

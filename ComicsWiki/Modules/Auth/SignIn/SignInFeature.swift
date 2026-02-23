@@ -50,7 +50,6 @@ struct SignInFeature {
                         state.passwordValidationError = error.localizedDescription
                     }
                 }
-                    
                 return .send(.delegate(.fetchedToken("asdad")))
             case .registerProfile(.presented(.delegate(.fetchedToken(let token)))):
                 state.registerProfile = nil

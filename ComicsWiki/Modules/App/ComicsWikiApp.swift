@@ -20,9 +20,7 @@ struct ComicsWikiApp: App {
     
     var body: some Scene {
         WindowGroup {
-            NavigationStack {
-                RootView(store: store)
-            }
+            RootView(store: store)
         }
     }
     

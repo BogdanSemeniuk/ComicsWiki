@@ -13,18 +13,26 @@ struct RootView: View {
     
     var body: some View {
         VStack {
-            if store.isAuthorized {
-                if let homeStore = store.scope(state: \.home, action: \.home) {
-                    HomeView(store: homeStore)
-                }
-            } else {
-                if let signInStore = store.scope(state: \.signIn, action: \.signIn) {
-                    SignInView(store: signInStore)
+            if let isAuthorized = store.isAuthorized {
+                if isAuthorized {
+                    if let homeStore = store.scope(state: \.home, action: \.home) {
+                        NavigationStack {
+                            HomeView(store: homeStore)
+                                .transition(.opacity)
+                        }
+                    }
+                } else {
+                    if let signInStore = store.scope(state: \.signIn, action: \.signIn) {
+                        NavigationStack {
+                            SignInView(store: signInStore)
+                                .transition(.opacity)
+                        }
+                    }
                 }
             }
         }
-        .onAppear {
-            store.send(.onAppear)
+        .onFirstAppear {
+            store.send(.onFirstAppear)
         }
     }
 }

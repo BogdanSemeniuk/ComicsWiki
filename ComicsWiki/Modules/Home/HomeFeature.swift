@@ -10,8 +10,6 @@ import ComposableArchitecture
 
 @Reducer
 struct HomeFeature {
-    @Dependency(\.authManager) var authManager
-    
     struct State {}
     
     enum Action: Equatable {
